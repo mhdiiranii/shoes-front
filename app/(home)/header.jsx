@@ -5,7 +5,6 @@ import Image from "next/image";
 import { RxDashboard } from "react-icons/rx";
 import { useState } from "react";
 import { IoPerson } from "react-icons/io5";
-import { getSession } from "../lib/getSession";
 import { signOut, useSession } from "next-auth/react";
 import { GiHamburgerMenu } from "react-icons/gi";
 
