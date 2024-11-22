@@ -16,14 +16,14 @@ const Filter = () => {
     Api()
       .getFilter()
       .then((res) => {
-        const cate = res.data.data.allCategory?.map((item) => item.category).flat();
+        const cate = res.data.data?.map((item) => item.category).flat();
         const uniqueItems = [...new Set(cate)];
         const deleteSpace = uniqueItems?.map((item) => item.replaceAll("-", " "));
         SetCategorys(deleteSpace);
-        const color = res.data.data.allCategory.map((item) => item.color);
+        const color = res.data.data.map((item) => item.color);
         const newColor = [...new Set(color)];
         setColor(newColor);
-        const brand = res.data.data.allCategory.map((item) => item.brand_name);
+        const brand = res.data.data.map((item) => item.brand_name);
         const newArray = [...new Set(brand)];
         setBrand(newArray);
       });

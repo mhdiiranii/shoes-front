@@ -20,16 +20,16 @@ function MyProducts(){
   const router = useRouter();
   const { setSelectProduct } = useContext(AuthContext);
 
-  const productSlug = query.get("slug");
 
   useEffect(() => {
-    if (!productSlug) return;
+    if (!query) return;
 
     setLoading(true);
     Api()
-      .getProduct(productSlug)
+      .getProduct(query)
       .then((res) => {
-        setMyProduct(res.data.data.allItem);
+        console.log(res.data.data)
+        setMyProduct(res.data.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -38,7 +38,7 @@ function MyProducts(){
           router.push("/404");
         }
       });
-  }, [productSlug]);
+  }, [query]);
 
   const submitDiv = (e, r) => {
     e.preventDefault();

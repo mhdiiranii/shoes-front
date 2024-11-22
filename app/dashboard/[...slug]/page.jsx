@@ -16,7 +16,7 @@ const Page = ({ params }) => {
     Api()
       .getOneProduct(params.slug)
       .then((res) => {
-        setMyData(res.data.data.oneItem);
+        setMyData(res.data.data);
         setLoading(false);
       })
       .catch((err) => {
