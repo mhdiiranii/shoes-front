@@ -1,4 +1,8 @@
+export const runtime = "nodejs";
+
 import clientPromise from "@/app/lib/mongocnct";
+
+
 
 export async function GET(req, { params }) {
   try {
@@ -15,7 +19,6 @@ export async function GET(req, { params }) {
   } catch (error) {
     console.error("Error fetching items:", error);
 
-    // مدیریت خطا
     return new Response(JSON.stringify({ status: 500, success: false, error: error.message }), { status: 500, headers: { "Content-Type": "application/json" } });
   }
 }
