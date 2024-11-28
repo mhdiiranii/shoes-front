@@ -1,6 +1,5 @@
 "use client"; // اینجا مشخص می‌کنیم که این کامپوننت کلاینتی است
 
-import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -19,16 +18,15 @@ const LogIn = () => {
     const username = formData.get("username");
     const password = formData.get("password");
 
-      const res = await signIn("credentials", {
-        redirect: false,
-        username,
-        password,
-      });
+    const res = await fetch(`/api/users/sign-in`, {
+      method: "POST",
+      body: formData,
+    });
       if (res?.error) {
         setError("رمز عبور یا نام کاربری اشتباه است");
         setLoading(false);
       } else {
-        router.push("/dashboard");
+        router.push("/dashboard?page=12");
         setLoading(false);
       }
   }
