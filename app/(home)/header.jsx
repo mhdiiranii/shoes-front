@@ -5,7 +5,8 @@ import Image from "next/image";
 import { RxDashboard } from "react-icons/rx";
 import { useState } from "react";
 import { IoPerson } from "react-icons/io5";
-import { signOut, useSession } from "next-auth/react";
+import { SignOut } from "../lib/signOut";
+import { useSession } from "../hook/UseSession";
 import { GiHamburgerMenu } from "react-icons/gi";
 
 const topHeader = [
@@ -42,7 +43,6 @@ const HeaderHome = () => {
   };
 
   const session = useSession();
-
   return (
     <div className="flex max-md:flex-col-reverse max-md:absolute top-0 z-50 bg-black p-2 w-full justify-between md:items-center">
       <div className="w-full flex max-md:hidden ">
@@ -75,12 +75,12 @@ const HeaderHome = () => {
         </button>
         <div className="flex  flex-col group items-center overflow-hidden ">
           <IoPerson size={25} />
-          <div style={{ zIndex: "5" }} className="flex flex-col h-0 overflow-hidden group-hover:h-auto duration-300 top-10 right-1  bg-black rounded-lg absolute items-center">
+          <div style={{ zIndex: "5" }} className="flex flex-col h-0 overflow-hidden group-hover:h-auto duration-300 top-9 right-1  bg-black rounded-lg absolute items-center">
             {session.status === "authenticated" ? (
               <>
                 <button
                   onClick={() => {
-                    signOut();
+                    SignOut();
                   }}
                   className="px-4 py-2  border-b border-black duration-300 hover:border-white text-red-600 hover:text-white font-bold "
                   href={"./login"}
@@ -91,7 +91,7 @@ const HeaderHome = () => {
             ) : (
               <>
                 <Link className="px-4 py-2  border-b border-black duration-300 hover:border-white text-red-600 hover:text-white font-bold " href={"./login"}>
-                  Log In
+                  Sign In
                 </Link>
                 <Link className="px-4 py-2  duration-300 text-red-600 hover:text-white font-bold" href={"./signup"}>
                   Sign Up

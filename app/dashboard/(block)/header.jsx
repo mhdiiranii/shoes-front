@@ -7,8 +7,9 @@ import { MdOutlineShoppingBag } from "react-icons/md";
 import { IoPerson } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 import { FaTrash } from "react-icons/fa";
-import { signOut, useSession } from "next-auth/react";
+import { SignOut } from "@/app/lib/signOut";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { useSession } from "@/app/hook/UseSession";
 
 const topHead = [
   {
@@ -99,7 +100,7 @@ const DashboardHeader = () => {
                         <>
                           <button
                             onClick={() => {
-                              signOut();
+                              SignOut();
                             }}
                             className="px-4 py-2 text-xs  border-b border-black duration-300 hover:border-white text-red-600 hover:text-white font-bold "
                             href={"./login"}
