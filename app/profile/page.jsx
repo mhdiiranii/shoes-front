@@ -1,23 +1,24 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import Footer from "../(home)/footer";
 import HeaderHome from "../(home)/header";
+import { useSession } from "../hook/UseSession";
 
 const Profile = () => {
-  const { data } = useSession();
-
+  const {session} = useSession();
+  // console.log(session.session.username);
+  
   return (
     <div className="h-screen mx-auto flex flex-col justify-between">
       <HeaderHome />
       <div className="flex flex-col h-full justify-center items-center">
         <div className="flex gap-2">
           <p>gmail :</p>
-          <p>{data?.user.email}</p>
+          <p>{session?.email}</p>
         </div>
         <div className="flex gap-3">
           <p>username :</p>
-          <p>{data?.user.username}</p>
+          <p>{session?.username}</p>
         </div>
       </div>
       <Footer />
