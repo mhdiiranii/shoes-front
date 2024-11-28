@@ -4,10 +4,15 @@ import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import validator from "validator";
 
 const SignUp = () => {
   const [error, setError] = useState(""); // مقدار اولیه خالی
   const router = useRouter();
+  
+  const isValidEmail  = (email) => validator.isEmail(email);
+  const validateUsername = (username) => /^[a-zA-Z0-9_]{3,20}$/.test(username);
+  const validatePassword = (password) => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password);
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -15,20 +20,29 @@ const SignUp = () => {
     const username = formData.get("username");
     const password = formData.get("password");
     const email = formData.get("email");
-
+    if(!isValidEmail(email)){
+      setError("!ایمیل درست قرار دهید")
+      return null;
+    }
+    if(!validateUsername(username)){
+      setError('نام کاربری درست انتخاب کنید!')
+      return null;
+    }
+    if(!validatePassword(password)){
+      setError("رمز عبور را درست کنید")
+      return null;
+    }
     try {
-      const res = await signIn("signUp", {
-        email,
-        username,
-        password,
-        callbackUrl: "/dashboard",
-        redirect: false,
+      setError("");
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACK_END}/users/sign-up`, {
+        method: "POST",
+        body: formData,
       });
-      if (res?.error) {
-
-        setError("!خظایی رخ داده دوباره سعی کنید");
+      if (res.status == 401) {
+        setError("کاربر وجود دارد");
       } else {
-        router.push("/dashboard");
+        setError("");
+        router.push("login");
       }
     } catch (error) {
       console.log("خطا در ورود:", error);

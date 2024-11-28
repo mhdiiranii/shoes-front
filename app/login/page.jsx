@@ -19,8 +19,7 @@ const LogIn = () => {
     const username = formData.get("username");
     const password = formData.get("password");
 
-    try {
-      const res = await signIn("logeIn", {
+      const res = await signIn("credentials", {
         redirect: false,
         username,
         password,
@@ -32,10 +31,6 @@ const LogIn = () => {
         router.push("/dashboard");
         setLoading(false);
       }
-    } catch (error) {
-      console.log("خطا در ورود:", error);
-      setLoading(false);
-    }
   }
   return (
     <form className="w-full h-screen flex flex-col justify-center items-center " onSubmit={handleSubmit}>
