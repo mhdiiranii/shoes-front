@@ -43,6 +43,10 @@ const HeaderHome = () => {
   };
 
   const session = useSession();
+
+
+  const loged = localStorage.getItem('loged')
+
   return (
     <div className="flex max-md:flex-col-reverse max-md:absolute top-0 z-50 bg-black p-2 w-full justify-between md:items-center">
       <div className="w-full flex max-md:hidden ">
@@ -76,10 +80,11 @@ const HeaderHome = () => {
         <div className="flex  flex-col group items-center overflow-hidden ">
           <IoPerson size={25} />
           <div style={{ zIndex: "5" }} className="flex flex-col h-0 overflow-hidden group-hover:h-auto duration-300 top-9 right-1  bg-black rounded-lg absolute items-center">
-            {session.status === "authenticated" ? (
+            {loged ? (
               <>
                 <button
                   onClick={() => {
+                    localStorage.removeItem('loged')
                     SignOut();
                   }}
                   className="px-4 py-2  border-b border-black duration-300 hover:border-white text-red-600 hover:text-white font-bold "

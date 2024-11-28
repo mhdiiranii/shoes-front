@@ -22,10 +22,12 @@ const LogIn = () => {
       method: "POST",
       body: formData,
     });
-      if (res?.error) {
+      if (!res.ok) {
+        // localStorage.setItem('loged',false)
         setError("رمز عبور یا نام کاربری اشتباه است");
         setLoading(false);
       } else {
+        localStorage.setItem('loged',true)
         router.push("/dashboard?page=12");
         setLoading(false);
       }

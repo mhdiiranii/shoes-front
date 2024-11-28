@@ -24,7 +24,7 @@ export async function POST(req) {
     if (!pass) {
       return NextResponse.json({ message: "رمز اشنباه است" }, { status: 401 });
     }
-
+      
       const token = jwt.sign({ username:username,email:user.email }, process.env.AUTH_SECRET, { expiresIn: '1h' });
       cookieStore.set({name:'user-token',value:token})
     return NextResponse.json({ user, token });

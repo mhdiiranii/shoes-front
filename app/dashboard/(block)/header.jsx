@@ -56,6 +56,7 @@ const DashboardHeader = () => {
   const [toggleRoute,setToggleRoute] = useState(false)
   const router = useRouter();
   const session = useSession();
+  const loged = localStorage.getItem('loged')
 
   useEffect(() => {
     setIsClient(true);
@@ -70,7 +71,6 @@ const DashboardHeader = () => {
     const newArray = products?.filter((item, i) => i !== index);
     setProducts(newArray);
   };
-
   return (
     <div className="flex flex-col fixed top-0 z-20  w-full">
       <div className="flex max-md:flex-col-reverse w-full  px-4 py-3 justify-between bg-[#f7f7f7] items-center">
@@ -96,10 +96,11 @@ const DashboardHeader = () => {
                   <div className="flex  flex-col group h-full items-center overflow-hidden text-lg md:text-xl ">
                     <IoPerson color="black"  />
                     <div style={{ zIndex: "5" }} className="flex flex-col h-0 overflow-hidden group-hover:h-auto w-28 duration-300 top-full right-0  bg-black rounded-lg absolute items-center">
-                      {session.status === "authenticated" ? (
+                      {loged ? (
                         <>
                           <button
                             onClick={() => {
+                              localStorage.removeItem('loged')
                               SignOut();
                             }}
                             className="px-4 py-2 text-xs  border-b border-black duration-300 hover:border-white text-red-600 hover:text-white font-bold "
