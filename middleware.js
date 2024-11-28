@@ -1,3 +1,4 @@
+
 "use server"
 
 import { auth } from "@/auth";
@@ -17,5 +18,6 @@ if(!authentication){
 
 // این خط به شما کمک می‌کند تا فقط مسیرهای خاصی را هدف قرار دهید
 export const config = {
+  // runtime: 'nodejs',
   matcher: ['/dashboard/:path*','/profile/:path'], // مسیرهای محافظت شده
 };
