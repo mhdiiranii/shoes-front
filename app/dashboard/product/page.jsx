@@ -28,7 +28,6 @@ function MyProducts(){
     Api()
       .getProduct(query)
       .then((res) => {
-        console.log(res.data.data)
         setMyProduct(res.data.data);
         setLoading(false);
       })
