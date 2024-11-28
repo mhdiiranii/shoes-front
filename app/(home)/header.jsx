@@ -3,39 +3,25 @@
 import Link from "next/link";
 import Image from "next/image";
 import { RxDashboard } from "react-icons/rx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoPerson } from "react-icons/io5";
 import { SignOut } from "../lib/signOut";
 import { useSession } from "../hook/UseSession";
 import { GiHamburgerMenu } from "react-icons/gi";
 
 const topHeader = [
-  {
-    id: 1,
-    title: "Men",
-  },
-  {
-    id: 2,
-    title: "Women",
-  },
-  {
-    id: 3,
-    title: <RxDashboard />,
-  },
-  {
-    id: 4,
-    title: "Girls",
-  },
-  {
-    id: 5,
-    title: "Boys",
-  },
+  { id: 1, title: "Men" },
+  { id: 2, title: "Women" },
+  { id: 3, title: <RxDashboard /> },
+  { id: 4, title: "Girls" },
+  { id: 5, title: "Boys" },
 ];
 
 const HeaderHome = () => {
   const [hover, setHover] = useState(false);
   const [detect, setDetect] = useState();
   const [toggle, setToggle] = useState(false);
+  const [loged, setLoged] = useState(false);
 
   const onHover = (id) => {
     setHover(true);
@@ -44,8 +30,12 @@ const HeaderHome = () => {
 
   const session = useSession();
 
-
-  const loged = localStorage.getItem('loged')
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const loggedIn = window.localStorage.getItem('loged');
+      setLoged(loggedIn);  
+    }
+  }, []);  // 
 
   return (
     <div className="flex max-md:flex-col-reverse max-md:absolute top-0 z-50 bg-black p-2 w-full justify-between md:items-center">
@@ -75,7 +65,7 @@ const HeaderHome = () => {
       </div>
       <div className="text-white flex max-md:justify-between justify-end w-full">
         <button onClick={() => setToggle(() => (toggle ? false : true))} className="text-white md:hidden text-start">
-          <GiHamburgerMenu/>
+          <GiHamburgerMenu />
         </button>
         <div className="flex  flex-col group items-center overflow-hidden ">
           <IoPerson size={25} />
@@ -84,7 +74,9 @@ const HeaderHome = () => {
               <>
                 <button
                   onClick={() => {
-                    localStorage.removeItem('loged')
+                    if (typeof window !== "undefined") {
+                      window.localStorage.removeItem("loged");
+                    }
                     SignOut();
                   }}
                   className="px-4 py-2  border-b border-black duration-300 hover:border-white text-red-600 hover:text-white font-bold "

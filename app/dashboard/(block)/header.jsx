@@ -53,10 +53,17 @@ const DashboardHeader = () => {
   const { products, setProducts } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
-  const [toggleRoute,setToggleRoute] = useState(false)
+  const [toggleRoute, setToggleRoute] = useState(false);
   const router = useRouter();
   const session = useSession();
-  const loged = localStorage.getItem('loged')
+  const [loged, setLoged] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const loggedIn = window.localStorage.getItem("loged");
+      setLoged(loggedIn);
+    }
+  }, []);
 
   useEffect(() => {
     setIsClient(true);
@@ -76,7 +83,7 @@ const DashboardHeader = () => {
       <div className="flex max-md:flex-col-reverse w-full  px-4 py-3 justify-between bg-[#f7f7f7] items-center">
         {isClient && (
           <>
-            <div className={`${toggleRoute ? 'max-md:h-7':'max-md:h-0'} overflow-hidden duration-500 flex max-md:gap-3 max-md:w-full max-md:items-center max-md:justify-start`}>
+            <div className={`${toggleRoute ? "max-md:h-7" : "max-md:h-0"} overflow-hidden duration-500 flex max-md:gap-3 max-md:w-full max-md:items-center max-md:justify-start`}>
               {topHead.reverse().map((item) => (
                 <ul key={item.id} className="flex ">
                   <li className="">
@@ -88,19 +95,21 @@ const DashboardHeader = () => {
               ))}
             </div>
             <div className="flex max-md:justify-between max-md:w-full items-center gap-4">
-              <button onClick={()=>setToggleRoute(()=> toggleRoute ? false:true)} className="text-black md:hidden text-start">
+              <button onClick={() => setToggleRoute(() => (toggleRoute ? false : true))} className="text-black md:hidden text-start">
                 <GiHamburgerMenu />
               </button>
               <div className="flex gap-2 items-center">
                 <div className="text-white cursor-pointer relative flex justify-end">
                   <div className="flex  flex-col group h-full items-center overflow-hidden text-lg md:text-xl ">
-                    <IoPerson color="black"  />
+                    <IoPerson color="black" />
                     <div style={{ zIndex: "5" }} className="flex flex-col h-0 overflow-hidden group-hover:h-auto w-28 duration-300 top-full right-0  bg-black rounded-lg absolute items-center">
                       {loged ? (
                         <>
                           <button
                             onClick={() => {
-                              localStorage.removeItem('loged')
+                              if (typeof window !== "undefined") {
+                                window.localStorage.removeItem("loged");
+                              }
                               SignOut();
                             }}
                             className="px-4 py-2 text-xs  border-b border-black duration-300 hover:border-white text-red-600 hover:text-white font-bold "
@@ -126,7 +135,7 @@ const DashboardHeader = () => {
                   <div className="flex  flex-col group items-center overflow-hidden ">
                     <button onClick={() => setOpen(() => (open ? false : true))} className="relative w-10 text-lg md:text-xl">
                       <span className="absolute text-xs top-0 right-0 text-red-700 ">{products.length}</span>
-                      <MdOutlineShoppingBag color="black"/>
+                      <MdOutlineShoppingBag color="black" />
                     </button>
                     <div className="h-0 rounded-lg duration-300 group-hover:min-h-40 w-60 overflow-auto bg-black text-white absolute right-0 top-full">
                       {products?.length === 0 ? (
@@ -166,7 +175,7 @@ const DashboardHeader = () => {
         )}
       </div>
       <div className="md:px-20 bg-white">
-        <div className={`${toggleRoute ? "max-md:py-1":'max-md:py-4'} max-md:duration-500 flex w-full md:p-4 justify-center items-center border-b`}>
+        <div className={`${toggleRoute ? "max-md:py-1" : "max-md:py-4"} max-md:duration-500 flex w-full md:p-4 justify-center items-center border-b`}>
           {gender.map((item) => (
             <Link
               href={{
