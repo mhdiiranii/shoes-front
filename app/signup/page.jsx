@@ -34,7 +34,7 @@ const SignUp = () => {
     }
     try {
       setError("");
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACK_END}/users/sign-up`, {
+      const res = await fetch(`/api/users/sign-up`, {
         method: "POST",
         body: formData,
       });

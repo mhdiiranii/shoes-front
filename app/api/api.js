@@ -3,12 +3,12 @@ import axios from "axios";
 
 const Api = () => {
   const AxiosRequest = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_BACK_END,
+    baseURL: 'http://localhost:3000',
     headers: { "X-Custom-Header": "foobar", "Content-Type": "application/json" },
   });
-  const getProduct = (query) => AxiosRequest.get(`/product?${query}`);
-  const getOneProduct = (id) => AxiosRequest.get(`/product/${id}`);
-  const getFilter = () => AxiosRequest.get(`/product/filter`);
+  const getProduct = (query) => AxiosRequest.get(`/api/product?${query}`);
+  const getOneProduct = (id) => AxiosRequest.get(`/api/product/${id}`);
+  const getFilter = () => AxiosRequest.get(`/api/product/filter`);
   
 
   return {
