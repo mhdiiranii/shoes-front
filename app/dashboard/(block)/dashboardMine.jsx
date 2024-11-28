@@ -29,9 +29,8 @@ const DashboardMine = () => {
     Api()
       .getProduct(query)
       .then((res) => {
-        setAllPages(res.data.meta.pages);
-        setMyProduct(res.data.data.allItem);
-        setAllDataCount(res.data.meta.totalData);
+        setMyProduct(res.data.data);
+        setAllDataCount(res.data.length)
         setLoading(false);
       });
   }, [page]);
@@ -51,7 +50,7 @@ const DashboardMine = () => {
     const length = allDataCount;
     if (page === 12) {
       setPage(() => length);
-      setPageCount(() => allPages);
+      setPageCount(() => length);
     } else {
       setPage(() => page - 12);
       setPageCount(() => pageCount - 1);
