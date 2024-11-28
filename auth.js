@@ -10,7 +10,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       async authorize(credentials) {
         try {
-          const res = await fetch('http://localhost:3000/api/users/mongo-db', {
+          const res = await fetch('/api/users/mongo-db', {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
