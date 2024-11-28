@@ -1,66 +1,55 @@
-export const runtime = "nodejs";
-
 import clientPromise from "@/app/lib/mongocnct";
 import { NextResponse } from "next/server";
 
-export async function GET(req, res) {
+export async function GET(req) {
   try {
     const client = await clientPromise;
     const db = client.db("shoes");
-    const url = new URL(req.url);
-    const query = new URLSearchParams(url.searchParams);
+    const query = req.nextUrl.searchParams; // استفاده از query params به جای request.url
+    let filter = {};
+
     if (query.get("brand")) {
-      const count = query.get("brand");
-      const allItem = await db.collection("products").find({ brand_name: count }).toArray();
-      return NextResponse.json({ status: 200, success: true, data: allItem });
+      filter.brand_name = query.get("brand");
     } else if (query.get("color")) {
-      const count = query.get("color");
-      const allItem = await db.collection("products").find({ color: count }).toArray();
-      if (allItem.length === 0) {
-        return NextResponse.json({ success: false },{status: 404});
-      }
-      return NextResponse.json({ status: 200, success: true, data: allItem });
+      filter.color = query.get("color");
     } else if (query.get("size")) {
-      const count = Number(query.get("size"));
-      const allItem = await db.collection("products").find({ size_range: count }).toArray();
-      if (allItem.length === 0) {
-        return NextResponse.json({ success: false},{ status: 404 });
-      }
-      return NextResponse.json({ status: 200, success: true, data: allItem });
+      filter.size_range = Number(query.get("size"));
     } else if (query.get("gender")) {
-      const count = query.get("gender");
-      const allItem = await db.collection("products").find({ gender: count }).toArray();
-      if (allItem.length === 0) {
-        return NextResponse.json({ success: false, status: 404 });
-      }
-      return NextResponse.json({ status: 200, success: true, data: allItem });
+      filter.gender = query.get("gender");
     } else if (query.get("category")) {
-      const count = query.get("category");
-      const allItem = await db.collection("products").find({ category: count }).toArray();
-      if (allItem.length === 0) {
-        return NextResponse.json({ success: false, status: 404 });
-      }
-      return NextResponse.json({ status: 200, success: true, data: allItem });
-    } else if (query.get("page")) {
-      const count = query.get("page");
+      filter.category = query.get("category");
+    }
+
+    if (query.get("page")) {
+      const page = Number(query.get("page"));
       const perPage = 12;
-      const offset = count - perPage;
+      const offset = (page - 1) * perPage;
       const productCount = await db.collection("products").countDocuments();
       const totalPages = Math.ceil(productCount / perPage);
-      const allItem = await db.collection("products").find({}).limit(perPage).skip(offset).toArray();
+
+      const allItem = await db.collection("products")
+        .find(filter)
+        .limit(perPage)
+        .skip(offset)
+        .toArray();
+
       if (allItem.length === 0) {
         return NextResponse.json({ success: false, status: 404 }, { status: 404 });
       }
-      return NextResponse.json({ status: 200, success: true, data: allItem, length: totalPages }, { status: 200 });
+
+      return NextResponse.json({ status: 200, success: true, data: allItem, length: totalPages });
+    } else {
+      const allItem = await db.collection("products").find(filter).toArray();
+      if (allItem.length === 0) {
+        return NextResponse.json({ success: false }, { status: 404 });
+      }
+      return NextResponse.json({ status: 200, success: true, data: allItem });
     }
   } catch (error) {
     console.error("Error fetching items:", error);
-    return (
-      NextResponse.json({ status: 500, success: false, error: error.message }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      }
+    return NextResponse.json(
+      { status: 500, success: false, error: error.message },
+      { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
 }
