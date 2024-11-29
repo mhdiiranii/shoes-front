@@ -18,7 +18,7 @@ const LogIn = () => {
     const username = formData.get("username");
     const password = formData.get("password");
 
-    const res = await fetch(`/api/users/sign-in`, {
+    const res = await fetch(`http://localhost:3000/api/users/sign-in`, {
       method: "POST",
       body: formData,
     });
