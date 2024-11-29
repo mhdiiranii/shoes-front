@@ -10,7 +10,7 @@ export function useSession() {
     const token = document.cookie.split('=')
     console.log(token)
     if (token[1]) {
-      fetch('/api/users/validate', {
+      fetch(`${process.env.NEXT_PUBLIC_BACK_END}/api/users/validate`, {
         method:"POST",
         headers:{"content-type":"appliacation/json"},
         body:JSON.stringify({token:token[1]})

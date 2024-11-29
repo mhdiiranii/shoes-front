@@ -33,7 +33,7 @@ const SignUp = () => {
     }
     try {
       setError("");
-      const res = await fetch(`http://localhost:3000/api/users/sign-up`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACK_END}/api/users/sign-up`, {
         method: "POST",
         body: formData,
       });
