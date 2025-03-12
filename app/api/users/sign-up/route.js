@@ -1,28 +1,24 @@
 export const runtime = "nodejs";
-
-import clientPromise from "@/app/lib/mongocnct";
+import { signInUser, signUpUser } from "@/app/lib/users";
 import bcrypt from "bcryptjs";
-
-
 
 export async function POST(req, res) {
   const data = await req.formData();
   const username = data.get("username");
   const password = data.get("password");
   const email = data.get("email");
-  const client = await clientPromise;
-  const db = client.db("shoes");
-  const collection = db.collection("users");
+
   try {
-    const user = await collection.findOne({ username });
-    if (user) {
-      return new Response(JSON.stringify({ success: false, message: "کاربر وجود دارد" }),{
-        status:401,
+    const user = await signInUser();
+    const validUser = user.find((item) => item.username === username);
+    if (validUser) {
+      return new Response(JSON.stringify({ success: false, message: "کاربر وجود دارد" }), {
+        status: 401,
       });
     }
 
     const hashPass = await bcrypt.hash(password, 9);
-    await collection.insertOne({ username: username, email: email, password: hashPass });
+    await signUpUser({ id: user.length, username: username, email: email, password: hashPass });
 
     return new Response(JSON.stringify({ success: true, message: "کاربر ساخته شد" }));
   } catch (error) {
