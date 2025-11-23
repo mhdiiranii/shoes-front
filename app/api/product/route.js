@@ -5,7 +5,7 @@ export async function GET(req) {
   try {
     const client = await clientPromise;
     const db = client.db("shoes");
-    const query = req.nextUrl.searchParams; 
+    const query = req.nextUrl.searchParams;
     let filter = {};
 
     if (query.get("brand")) {
@@ -23,20 +23,14 @@ export async function GET(req) {
     if (query.get("page")) {
       const page = Number(query.get("page"));
       const perPage = 12;
-      const offset = (page - 1) * perPage;
       const productCount = await db.collection("products").countDocuments();
+      const offset = (page - 1) * perPage;
       const totalPages = Math.ceil(productCount / perPage);
-
-      const allItem = await db.collection("products")
-        .find(filter)
-        .limit(perPage)
-        .skip(offset)
-        .toArray();
-
+      const allItem = await db.collection("products").find(filter).limit(perPage).skip(offset).toArray();
+      
       if (allItem.length === 0) {
         return NextResponse.json({ success: false, status: 404 }, { status: 404 });
       }
-
       return NextResponse.json({ status: 200, success: true, data: allItem, length: totalPages });
     } else {
       const allItem = await db.collection("products").find(filter).toArray();
@@ -47,9 +41,6 @@ export async function GET(req) {
     }
   } catch (error) {
     console.error("Error fetching items:", error);
-    return NextResponse.json(
-      { status: 500, success: false, error: error.message },
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
+    return NextResponse.json({ status: 500, success: false, error: error.message }, { status: 500, headers: { "Content-Type": "application/json" } });
   }
 }
