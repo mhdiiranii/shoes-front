@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 
 
 
-export async function GET(req, res) {
+export async function GET() {
   try {
     const client = await clientPromise;
     const db = client.db("shoes");
@@ -14,11 +14,11 @@ export async function GET(req, res) {
   } catch (error) {
     console.error("Error fetching items:", error);
     return (
-      NextResponse.json({ status: 500, success: false, error: error.message }),
+      NextResponse.json({ status: 500, success: false, error: error.message },
       {
         status: 500,
         headers: { "Content-Type": "application/json" },
-      }
+      })
     );
   }
 }

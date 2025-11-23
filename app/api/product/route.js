@@ -5,7 +5,7 @@ export async function GET(req) {
   try {
     const client = await clientPromise;
     const db = client.db("shoes");
-    const query = req.nextUrl.searchParams; // استفاده از query params به جای request.url
+    const query = req.nextUrl.searchParams; 
     let filter = {};
 
     if (query.get("brand")) {
