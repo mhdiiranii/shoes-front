@@ -3,7 +3,7 @@ import axios from "axios";
 
 const Api = () => {
   const AxiosRequest = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_BACK_END,
+    baseURL: '',
     headers: { "X-Custom-Header": "foobar", "Content-Type": "application/json" },
   });
   const getProduct = (query) => AxiosRequest.get(`/api/product?${query}`);
