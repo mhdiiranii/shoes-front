@@ -23,11 +23,19 @@ export async function GET(req) {
     if (query.get("page")) {
       const page = Number(query.get("page"));
       const perPage = 12;
+<<<<<<< HEAD
+=======
+      const offset = page * perPage;
+>>>>>>> 0c865b12e64bface38ca8b055fadf26ff40553c4
       const productCount = await db.collection("products").countDocuments();
       const offset = (page - 1) * perPage;
       const totalPages = Math.ceil(productCount / perPage);
       const allItem = await db.collection("products").find(filter).limit(perPage).skip(offset).toArray();
+<<<<<<< HEAD
       
+=======
+
+>>>>>>> 0c865b12e64bface38ca8b055fadf26ff40553c4
       if (allItem.length === 0) {
         return NextResponse.json({ success: false, status: 404 }, { status: 404 });
       }

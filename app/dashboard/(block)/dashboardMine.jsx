@@ -34,8 +34,12 @@ const DashboardMine = () => {
         setLoading(false);
       });
   }, [page,query]);
+<<<<<<< HEAD
   console.log(allDataCount)
   console.log(page)
+=======
+
+>>>>>>> 0c865b12e64bface38ca8b055fadf26ff40553c4
   const nextBtn = () => {
     const length = allDataCount;
 
