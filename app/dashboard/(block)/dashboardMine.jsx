@@ -16,14 +16,14 @@ const cormorant = Cormorant({ weight: "700", subsets: ["latin"] });
 const DashboardMine = () => {
   const [myProduct, setMyProduct] = useState();
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(12);
+  const [page, setPage] = useState(1);
   const query = "page=" + page;
   const [allPages, setAllPages] = useState();
   const [pageCount, setPageCount] = useState(1);
   const [allDataCount, setAllDataCount] = useState();
   const router = useRouter();
   const { selectProduct, setSelectProduct } = useContext(AuthContext);
-
+  console.log(query)
   useMemo(() => {
     setLoading(true);
     Api()
@@ -33,13 +33,13 @@ const DashboardMine = () => {
         setAllDataCount(res.data.length)
         setLoading(false);
       });
-  }, [page]);
+  }, [page,query]);
 
   const nextBtn = () => {
     const length = allDataCount;
 
     if (page !== length) {
-      setPage(() => page + 12);
+      setPage(() => page + 1);
       setPageCount(() => pageCount + 1);
     } else {
       setPage(12);
