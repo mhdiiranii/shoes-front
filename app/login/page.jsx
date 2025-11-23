@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import Loading from "../(loading)/loading";
 
 const LogIn = () => {
-  const [error, setError] = useState(""); // مقدار اولیه خالی
+  const [error, setError] = useState("");
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -15,15 +15,13 @@ const LogIn = () => {
     setLoading(true);
     setError("");
     const formData = new FormData(e.target);
-    const username = formData.get("username");
-    const password = formData.get("password");
+   
 
     const res = await fetch(`/api/users/sign-in`, {
       method: "POST",
       body: formData,
     });
     if (!res.ok) {
-      // localStorage.setItem('loged',false)
       setError("رمز عبور یا نام کاربری اشتباه است");
       setLoading(false);
     } else {
